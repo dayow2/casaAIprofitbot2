@@ -2,7 +2,7 @@ from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import Application, CommandHandler, CallbackQueryHandler, ContextTypes
 
 # REPLACE THIS WITH YOUR ACTUAL TOKEN FROM BOTFATHER
-YOUR_TOKEN = "7234567890:AAHdqTcvCH1vGWJxfSeofSAs0K5PALDsaw"
+YOUR_TOKEN = "8375561355:AAHFnlL7wHATpQK1FnsuURnJ0DN31yJFVPQ"
 
 # Track if the bot is trading (simple state)
 is_trading = False
