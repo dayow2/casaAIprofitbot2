@@ -1,3 +1,4 @@
+import asyncio
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import Application, CommandHandler, CallbackQueryHandler, ContextTypes
 
@@ -107,8 +108,8 @@ async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
         parse_mode='Markdown'
     )
 
-def main():
-    """Start the bot"""
+async def main():
+    """Start the bot - FIXED for Python 3.14"""
     print("🤖 Bot is starting...")
     
     # Create the application
@@ -119,9 +120,19 @@ def main():
     app.add_handler(CommandHandler("help", help_command))
     app.add_handler(CallbackQueryHandler(button_handler))
     
-    # Start the bot
-    print("✅ Bot is running! Press Ctrl+C to stop")
-    app.run_polling(allowed_updates=Update.ALL_TYPES)
+    # Start the bot (fixed event loop handling)
+    print("✅ Bot is running!")
+    await app.initialize()
+    await app.start()
+    await app.updater.start_polling()
+    
+    # Keep running until interrupted
+    try:
+        await asyncio.Event().wait()  # Wait forever
+    except KeyboardInterrupt:
+        print("🛑 Bot shutting down...")
+        await app.stop()
 
 if __name__ == '__main__':
-    main()
+    # Run the async main function
+    asyncio.run(main())
